@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from "react";
-import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import type {DropResult} from "react-beautiful-dnd";
 import { toast } from "sonner";
 import { statusOptions } from "~/app/exports/data";
 import { Button } from "~/components/ui/button";
