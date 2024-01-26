@@ -9,14 +9,16 @@ import {
     SelectValue,
 } from "~/components/ui/select";
 import { Input } from "./input";
-import { TaskResponse, statusOptions } from "~/app/quest/[id]/page";
+import { TaskResponse } from "~/app/quest/[id]/page";
 import { useState } from "react";
 import { toast } from "sonner";
 import { api } from "~/trpc/react";
 import { Button } from "./button";
+import { statusOptions } from "~/app/exports/data";
+
 interface TaskDetailProps {
     task: TaskResponse;
-    id: Number;
+    id: number;
 }
 const TaskDetail: React.FC<TaskDetailProps> = ({ task, id }) => {
 
@@ -55,7 +57,7 @@ const TaskDetail: React.FC<TaskDetailProps> = ({ task, id }) => {
     const updateTask = api.task.updateTask.useMutation({
         onSuccess: async () => {
             toast.success('Task has been updated');
-            getTasksQuery.refetch();
+            await getTasksQuery.refetch();
         },
         onError: () => {
             toast.error('Some problem updating the task');

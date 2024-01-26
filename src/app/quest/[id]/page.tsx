@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
 import { toast } from "sonner";
+import { statusOptions } from "~/app/exports/data";
 import { Button } from "~/components/ui/button";
 import {
     Dialog,
@@ -25,12 +26,6 @@ export interface TaskResponse {
     updatedAt: Date | null;
 }
 
-export const statusOptions = [
-    { name: 'To Do', value: 'todo' },
-    { name: 'In Progress', value: 'inProgress' },
-    { name: 'Done', value: 'done' }
-];
-
 const Quest = ({ params }: { params: { id: number } }) => {
     const [quest, setQuest] = useState<TaskResponse[]>([]);
 
@@ -45,7 +40,7 @@ const Quest = ({ params }: { params: { id: number } }) => {
     const updateStatus = api.task.updateTaskStatus.useMutation({
         onSuccess: async () => {
             toast.success('Task status has been updated');
-            getTasksQuery.refetch();
+            await getTasksQuery.refetch();
         },
         onError: () => {
             toast.error('Some problem updating task status');

@@ -18,7 +18,7 @@ import TaskDetail from "./taskDetail";
 
 interface TaskItemProps {
     task: TaskResponse;
-    id: Number;
+    id: number;
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({ task, id }) => {

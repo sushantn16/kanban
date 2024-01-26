@@ -5,7 +5,7 @@ import { api } from "~/trpc/react";
 
 const Quest = () => {
     const getQuests = api.project.getProjects.useQuery();
-    const quests = getQuests.data || [];
+    const quests = getQuests.data ?? [];
 
     return (
         <>

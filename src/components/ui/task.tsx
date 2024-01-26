@@ -66,7 +66,7 @@ const Task: React.FC<TaskProps> = ({ projectId }) => {
     const createTask = api.task.createTask.useMutation({
         onSuccess: async () => {
             toast.success('A new task has been added');
-            getTasksQuery.refetch();
+            await getTasksQuery.refetch();
         },
         onError: () => {
             toast.error('Some problem adding a task');
