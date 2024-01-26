@@ -1,4 +1,4 @@
-import { TaskResponse } from "~/app/quest/[id]/page";
+import type {TaskResponse}  from "~/app/quest/[id]/page";
 import {
     Card,
     CardContent,

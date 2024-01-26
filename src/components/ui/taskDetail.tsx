@@ -9,7 +9,7 @@ import {
     SelectValue,
 } from "~/components/ui/select";
 import { Input } from "./input";
-import { TaskResponse } from "~/app/quest/[id]/page";
+import type { TaskResponse } from "~/app/quest/[id]/page";
 import { useState } from "react";
 import { toast } from "sonner";
 import { api } from "~/trpc/react";
