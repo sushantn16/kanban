@@ -1,13 +1,15 @@
 import "~/styles/globals.css";
 
-import { Inter } from "next/font/google";
-
 import { TRPCReactProvider } from "~/trpc/react";
+import { Inter as FontSans } from "next/font/google"
+import { cn } from "~/lib/utils";
+import Sidenav from "~/components/ui/sidenav";
+import { Toaster } from "~/components/ui/sonner"
 
-const inter = Inter({
+export const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
-});
+})
 
 export const metadata = {
   title: "Create T3 App",
@@ -22,8 +24,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+      <body className={cn(
+        "min-h-screen bg-background font-sans antialiased",
+        fontSans.variable
+      )} suppressHydrationWarning={true}>
+        <TRPCReactProvider>
+          <main className="flex">
+            <Sidenav />
+            <div className="w-10/12 p-5">
+              {children}
+            </div>
+          </main>
+          <Toaster />
+        </TRPCReactProvider>
       </body>
     </html>
   );
