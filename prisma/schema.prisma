@@ -63,10 +63,11 @@ model VerificationToken {
 }
 
 model Project {
-  id    Int    @id @default(autoincrement())
-  name  String
-  users User[] @relation("UserProjects")
-  tasks Task[] @relation(name: "ProjectTasks")
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  users       User[]  @relation("UserProjects")
+  tasks       Task[]  @relation(name: "ProjectTasks")
 }
 
 model Task {

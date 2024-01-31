@@ -58,7 +58,7 @@ const TaskDetail: React.FC<TaskDetailProps> = ({ task, id }) => {
     const addComment = api.task.createComment.useMutation({
         onSuccess: async () => {
             toast.success("Comment added")
-            getComments.refetch();
+            await getComments.refetch();
             setComment('');
         },
         onError: () => {

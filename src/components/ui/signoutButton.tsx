@@ -4,7 +4,7 @@ import { Button } from './button';
 
 const SignOutButton = () =>{
     return (
-        <Button onClick={()=> signOut()} variant={"secondary"}>Logout</Button>
+        <Button onClick={()=> signOut()} variant={"link"}>Logout</Button>
     )
 
 }

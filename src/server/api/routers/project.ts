@@ -6,11 +6,12 @@ import {
 
 export const projectRouter = createTRPCRouter({
   createProject: protectedProcedure
-    .input(z.object({ projectName: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
+    .input(z.object({ projectName: z.string().min(1), description: z.string() }))
+    .mutation(({ ctx, input }) => {
       return ctx.db.project.create({
         data: {
           name: input.projectName,
+          description: input.description,
           users: { connect: { id: ctx.session.user.id } },
         },
       });
@@ -56,5 +57,18 @@ export const projectRouter = createTRPCRouter({
         },
       });
       return `User ${input.userEmail} added to the project successfully.`;
+    }),
+
+  getUsersForProject: protectedProcedure
+    .input(z.object({ projectId: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const project = await ctx.db.project.findUnique({
+        where: { id: input.projectId, users: { some: { id: ctx.session.user.id } } },
+        include: { users: true },
+      });
+      if (!project) {
+        throw new Error("Permission denied. Project not found or user does not have access.");
+      }
+      return project.users;
     }),
 });

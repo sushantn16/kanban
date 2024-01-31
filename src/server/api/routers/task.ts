@@ -64,7 +64,7 @@ export const taskRouter = createTRPCRouter({
             return updatedTask;
         }),
 
-        getTasksForUser: protectedProcedure
+    getTasksForUser: protectedProcedure
         .input(z.object({ done: z.boolean().optional() }))
         .query(async ({ ctx, input }) => {
             const whereCondition: {
@@ -73,18 +73,22 @@ export const taskRouter = createTRPCRouter({
             } = {
                 user_id: ctx.session.user.id,
             };
-    
+
             if (input.done !== undefined) {
                 whereCondition.status = input.done ? 'done' : { not: 'done' };
             }
 
             const tasksForUser = await ctx.db.task.findMany({
                 where: whereCondition,
+                include: {
+                    user: true,
+                    project: true
+                }
             });
-    
+
             return tasksForUser;
         }),
-    
+
     createComment: protectedProcedure
         .input(
             z.object({

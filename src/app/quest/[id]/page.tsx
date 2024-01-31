@@ -1,4 +1,5 @@
 'use client'
+import { PlusIcon } from "@radix-ui/react-icons";
 import { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import type { DropResult } from "react-beautiful-dnd";
@@ -15,6 +16,7 @@ import { Input } from "~/components/ui/input";
 import Task from "~/components/ui/task";
 import TaskItem from "~/components/ui/taskItem";
 import { api } from "~/trpc/react";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
 
 export interface TaskResponse {
     id: number;
@@ -40,7 +42,10 @@ interface User {
 const Quest = ({ params }: { params: { id: number } }) => {
     const [quest, setQuest] = useState<TaskResponse[]>([]);
     const [email, setEmail] = useState('');
+
     const getTasksQuery = api.project.getTasksForProject.useQuery({ projectId: Number(params.id) });
+    const getUsers = api.project.getUsersForProject.useQuery({ projectId: Number(params.id) });
+    const users = getUsers.data ?? []
 
     const addUser = api.project.addUserToProject.useMutation({
         onSuccess: async () => {
@@ -91,28 +96,37 @@ const Quest = ({ params }: { params: { id: number } }) => {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <Dialog>
-                <DialogTrigger>
-                    <Button>Add Task</Button>
-                </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>Add a new Task</DialogHeader>
-                    <Task projectId={params.id} />
-                </DialogContent>
-            </Dialog>
-            <Dialog>
-                <DialogTrigger>
-                    <Button>Add users</Button>
-                </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>Add users to quest</DialogHeader>
-                    <div>
-                        <Input placeholder="email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
-                        <Button onClick={handleAddUserButtonClick}>Add</Button>
-                    </div>
-                </DialogContent>
-            </Dialog>
-
+            <div className="flex items-center justify-between">
+                <Dialog>
+                    <DialogTrigger>
+                        <Button>Add Task</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>Add a new Task</DialogHeader>
+                        <Task projectId={params.id} />
+                    </DialogContent>
+                </Dialog>
+                <div className="flex">
+                    {users?.map((user:User) =>
+                        <Avatar key={user.id}>
+                            <AvatarImage src={user.image ?? ''} />
+                            <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                    )}
+                    <Dialog>
+                        <DialogTrigger className="z-1 -ml-5">
+                            <Button variant={"outline"} className="rounded-full" size={"icon"}><PlusIcon /></Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>Add users to quest</DialogHeader>
+                            <div>
+                                <Input placeholder="email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                                <Button onClick={handleAddUserButtonClick}>Add</Button>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
+                </div>
+            </div>
 
             <div className="flex flex-row p-4 min-h-[calc(100vh-74px)]">
                 {statusOptions.map((status) => (

@@ -5,6 +5,7 @@ import { Inter as FontSans } from "next/font/google"
 import { cn } from "~/lib/utils";
 import Sidenav from "~/components/ui/sidenav";
 import { Toaster } from "~/components/ui/sonner"
+import UserHeader from "~/components/ui/userAccountHeader";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -31,8 +32,11 @@ export default function RootLayout({
         <TRPCReactProvider>
           <main className="flex">
             <Sidenav />
-            <div className="w-10/12 p-5">
-              {children}
+            <div className="w-10/12">
+              <UserHeader />
+              <div className="p-5">
+                {children}
+              </div>
             </div>
           </main>
           <Toaster />
