@@ -27,35 +27,34 @@ export const projectRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.db.task.findMany({
         where: { project: { id: input.projectId } },
+        include: { user: true }
       });
     }),
 
-  addUsersToProject: protectedProcedure
-    .input(z.object({ projectId: z.number(), userIds: z.array(z.string()) }))
+  addUserToProject: protectedProcedure
+    .input(z.object({ projectId: z.number(), userEmail: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const project = await ctx.db.project.findUnique({
         where: { id: input.projectId, users: { some: { id: ctx.session.user.id } } },
       });
-
       if (!project) {
         throw new Error("Permission denied. Project not found or user does not have access.");
       }
-
-      // Find existing users to add to the project
-      const usersToAdd = await ctx.db.user.findMany({
-        where: { id: { in: input.userIds } },
+      const userToAdd = await ctx.db.user.findUnique({
+        where: { email: input.userEmail },
       });
-
-      // Add users to the project
+      if (!userToAdd) {
+        throw new Error(`User with email ${input.userEmail} not found.`);
+      }
+      // Add the user to the project
       await ctx.db.project.update({
         where: { id: input.projectId },
         data: {
           users: {
-            connect: usersToAdd.map((user) => ({ id: user.id })),
+            connect: [{ id: userToAdd.id }],
           },
         },
       });
-
-      return "Users added to the project successfully.";
+      return `User ${input.userEmail} added to the project successfully.`;
     }),
 });

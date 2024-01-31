@@ -37,7 +37,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, id }) => {
                         <DialogTrigger>
                             <Button>Details</Button>
                         </DialogTrigger>
-                        <DialogContent>
+                        <DialogContent className="min-w-[800px]">
                             <TaskDetail task={task} id={id}/>
                             
                         </DialogContent>
