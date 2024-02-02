@@ -28,7 +28,7 @@ export const projectRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.db.task.findMany({
         where: { project: { id: input.projectId } },
-        include: { user: true }
+        include: { user: true, project:true }
       });
     }),
 

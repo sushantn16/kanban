@@ -11,7 +11,7 @@ import {
 interface Quest {
     id: number,
     name: string,
-    description: string|null;
+    description: string | null;
 }
 
 const Quest = () => {
@@ -20,19 +20,23 @@ const Quest = () => {
 
     return (
         <>
-            <AddQuest />
-            <div className="flex gap-3 flex-col mt-3">
-                <p>Existing Quests:</p>
-                {quests.map((quest: Quest) => (
-                    <Link href={`/quest/${quest.id}`} key={quest.id}>
-                        <Card className="p-4 w-1/2">
-                            <CardTitle>{quest.name}</CardTitle>
-                            <div>
-                            <CardDescription>{quest.description}</CardDescription>
-                            </div>
-                        </Card>
-                    </Link>
-                ))}
+            <div className="flex">
+                <div className="flex gap-3 flex-col w-1/2 p-2">
+                    <p>Existing Quests:</p>
+                    {quests.map((quest: Quest) => (
+                        <Link href={`/quest/${quest.id}`} key={quest.id}>
+                            <Card className="p-4">
+                                <CardTitle>{quest.name}</CardTitle>
+                                <div>
+                                    <CardDescription>{quest.description}</CardDescription>
+                                </div>
+                            </Card>
+                        </Link>
+                    ))}
+                </div>
+                <div className="w-1/2 p-2 flex flex-col gap-3">
+                    <AddQuest />
+                </div>
             </div>
         </>
     );

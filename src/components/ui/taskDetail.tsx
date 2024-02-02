@@ -1,3 +1,4 @@
+'use client'
 import { Textarea } from "./textarea";
 import { priorityOptions } from "./task";
 import {

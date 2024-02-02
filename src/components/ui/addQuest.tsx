@@ -34,7 +34,7 @@ const AddQuest = () => {
     return (
         <>
             <p>Create a new Quest</p>
-            <form onSubmit={handleSubmit} className="flex flex-col w-1/2 gap-2">
+            <form onSubmit={handleSubmit} className="flex flex-col w-1/2 gap-3">
                 <Input
                     placeholder="Quest name"
                     id="name"

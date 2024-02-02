@@ -149,6 +149,9 @@ export const taskRouter = createTRPCRouter({
                 include: {
                     user: true, // Include user information if needed
                 },
+                orderBy: {
+                    createdAt: 'desc', // Sort by createdAt field in descending order
+                },
             });
             return commentsForTask;
         }),

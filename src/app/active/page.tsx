@@ -1,23 +1,14 @@
 import { api } from "~/trpc/server";
-import {
-    Card,
-    CardDescription,
-    CardTitle,
-} from "~/components/ui/card"
+import TaskView from "~/components/ui/taskView";
 
 const ActiveTasks = async () => {
     const activeTasks = await (api.task.getTasksForUser.query({}));
     return (
         <>
-            <p>Active Tasks</p>
-            <div className="flex flex-col gap-3">
+            <p className="text-2xl font-bold mb-5">Active Tasks</p>
+            <div className="flex flex-col gap-3 mt-3">
                 {activeTasks.map((task) => (
-                    <Card className="p-4 w-1/2" key={task.id}>
-                        <CardTitle>{task.task_name}</CardTitle>
-                        <div>
-                            <CardDescription>{task.description}</CardDescription>
-                        </div>
-                    </Card>
+                    <TaskView task={task}/>
                 ))}
             </div>
         </>

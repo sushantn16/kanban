@@ -17,6 +17,7 @@ import Task from "~/components/ui/task";
 import TaskItem from "~/components/ui/taskItem";
 import { api } from "~/trpc/react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
+import { number } from "zod";
 
 export interface TaskResponse {
     id: number;
@@ -29,6 +30,7 @@ export interface TaskResponse {
     createdAt: Date;
     updatedAt: Date | null;
     user: User
+    project: Project
 }
 
 interface User {
@@ -38,6 +40,10 @@ interface User {
     emailVerified: Date | null;
     image: string | null;
 };
+
+interface Project {
+    id: number
+}
 
 const Quest = ({ params }: { params: { id: number } }) => {
     const [quest, setQuest] = useState<TaskResponse[]>([]);
@@ -114,7 +120,7 @@ const Quest = ({ params }: { params: { id: number } }) => {
                         </Avatar>
                     )}
                     <Dialog>
-                        <DialogTrigger className="z-1 -ml-5">
+                        <DialogTrigger className="z-10 -ml-5">
                             <Button variant={"outline"} className="rounded-full" size={"icon"}><PlusIcon /></Button>
                         </DialogTrigger>
                         <DialogContent>
