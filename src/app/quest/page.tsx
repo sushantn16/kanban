@@ -7,12 +7,7 @@ import {
     CardDescription,
     CardTitle,
 } from "~/components/ui/card"
-
-interface Quest {
-    id: number,
-    name: string,
-    description: string | null;
-}
+import type { Quest } from "../exports/interfaces";
 
 const Quest = () => {
     const getQuests = api.project.getProjects.useQuery();

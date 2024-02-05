@@ -17,33 +17,7 @@ import Task from "~/components/ui/task";
 import TaskItem from "~/components/ui/taskItem";
 import { api } from "~/trpc/react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
-
-export interface TaskResponse {
-    id: number;
-    task_name: string;
-    description: string;
-    priority: string;
-    status: string;
-    project_id: number;
-    user_id: string;
-    createdAt: Date;
-    updatedAt: Date | null;
-    user: User
-    project: Project
-}
-
-interface User {
-    id: string;
-    name: string | null;
-    email: string | null;
-    emailVerified: Date | null;
-    image: string | null;
-};
-
-interface Project {
-    id: number
-    name: string
-}
+import { TaskResponse, User } from "~/app/exports/interfaces";
 
 const Quest = ({ params }: { params: { id: number } }) => {
     const [quest, setQuest] = useState<TaskResponse[]>([]);

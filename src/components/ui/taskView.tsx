@@ -1,4 +1,3 @@
-import type { TaskResponse } from "~/app/quest/[id]/page";
 import {
     Card,
     CardDescription,
@@ -12,6 +11,7 @@ import {
 import TaskDetail from "./taskDetail";
 import Link from "next/link";
 import { Badge } from "./badge";
+import { TaskResponse } from "~/app/exports/interfaces";
 
 interface TaskTileProps {
     task: TaskResponse

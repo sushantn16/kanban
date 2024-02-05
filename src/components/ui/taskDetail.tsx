@@ -9,7 +9,6 @@ import {
     SelectValue,
 } from "~/components/ui/select";
 import { Input } from "./input";
-import type { TaskResponse } from "~/app/quest/[id]/page";
 import { useState } from "react";
 import { toast } from "sonner";
 import { api } from "~/trpc/react";
@@ -17,6 +16,7 @@ import { Button } from "./button";
 import { statusOptions } from "~/app/exports/data";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar"
 import { dialogClose } from "./dialog";
+import { TaskResponse } from "~/app/exports/interfaces";
 
 interface TaskDetailProps {
     task: TaskResponse;
