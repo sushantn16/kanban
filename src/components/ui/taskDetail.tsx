@@ -16,6 +16,7 @@ import { api } from "~/trpc/react";
 import { Button } from "./button";
 import { statusOptions } from "~/app/exports/data";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar"
+import { dialogClose } from "./dialog";
 
 interface TaskDetailProps {
     task: TaskResponse;
@@ -70,6 +71,7 @@ const TaskDetail: React.FC<TaskDetailProps> = ({ task, id }) => {
     const updateTask = api.task.updateTask.useMutation({
         onSuccess: async () => {
             toast.success('Task has been updated');
+            dialogClose();
             await getTasksQuery.refetch();
         },
         onError: () => {

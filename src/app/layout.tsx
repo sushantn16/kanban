@@ -3,7 +3,6 @@ import "~/styles/globals.css";
 import { TRPCReactProvider } from "~/trpc/react";
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "~/lib/utils";
-import Sidenav from "~/components/ui/sidenav";
 import { Toaster } from "~/components/ui/sonner"
 import UserHeader from "~/components/ui/userAccountHeader";
 
@@ -30,13 +29,10 @@ export default function RootLayout({
         fontSans.variable
       )} suppressHydrationWarning={true}>
         <TRPCReactProvider>
-          <main className="flex">
-            <Sidenav />
-            <div className="w-10/12">
-              <UserHeader />
-              <div className="p-5">
-                {children}
-              </div>
+          <main>
+            <UserHeader />
+            <div className="p-5 w-full">
+              {children}
             </div>
           </main>
           <Toaster />

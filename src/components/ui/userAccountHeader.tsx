@@ -9,13 +9,23 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu"
+import { Button } from './button';
+import Link from 'next/link';
 
 const UserHeader = async () => {
     const session = await getServerAuthSession();
 
 
     return (
-        <div className='flex justify-end'>
+        <div className='flex justify-between'>
+                <p className='text-4xl'>Kanban</p>
+                {session &&
+                <div className='flex'>
+                        <Button variant={"link"} className='block' asChild><Link href={'/quest'}>Quest</Link></Button>
+                        <Button variant={"link"} className='block' asChild><Link href={'/active'}>Active Tasks</Link></Button>
+                        <Button variant={"link"} className='block' asChild><Link href={'/compeleted'}>Compeleted Tasks</Link></Button>
+                        </div>
+                }
             {session ?
                 <DropdownMenu>
                     <DropdownMenuTrigger className='flex items-center  p-3'>

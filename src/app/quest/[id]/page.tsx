@@ -17,7 +17,6 @@ import Task from "~/components/ui/task";
 import TaskItem from "~/components/ui/taskItem";
 import { api } from "~/trpc/react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
-import { number } from "zod";
 
 export interface TaskResponse {
     id: number;
@@ -43,6 +42,7 @@ interface User {
 
 interface Project {
     id: number
+    name: string
 }
 
 const Quest = ({ params }: { params: { id: number } }) => {
@@ -101,72 +101,77 @@ const Quest = ({ params }: { params: { id: number } }) => {
     }
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
+        <>
+
             <div className="flex items-center justify-between">
-                <Dialog>
-                    <DialogTrigger>
-                        <Button>Add Task</Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogHeader>Add a new Task</DialogHeader>
-                        <Task projectId={params.id} />
-                    </DialogContent>
-                </Dialog>
+                <p className="text-2xl font-bold">{quest[0]?.project.name}</p>
                 <div className="flex">
-                    {users?.map((user:User) =>
-                        <Avatar key={user.id}>
-                            <AvatarImage src={user.image ?? ''} />
-                            <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                    )}
                     <Dialog>
-                        <DialogTrigger className="z-10 -ml-5">
-                            <Button variant={"outline"} className="rounded-full" size={"icon"}><PlusIcon /></Button>
+                        <DialogTrigger className="mr-10">
+                            <Button variant={"outline"}>Add Task</Button>
                         </DialogTrigger>
                         <DialogContent>
-                            <DialogHeader>Add users to quest</DialogHeader>
-                            <div>
-                                <Input placeholder="email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
-                                <Button onClick={handleAddUserButtonClick}>Add</Button>
-                            </div>
+                            <DialogHeader>Add a new Task</DialogHeader>
+                            <Task projectId={params.id} />
                         </DialogContent>
                     </Dialog>
+                    <div className="flex">
+                        {users?.map((user: User) =>
+                            <Avatar key={user.id}>
+                                <AvatarImage src={user.image ?? ''} />
+                                <AvatarFallback>CN</AvatarFallback>
+                            </Avatar>
+                        )}
+                        <Dialog>
+                            <DialogTrigger className="z-10 -ml-5">
+                                <Button variant={"outline"} className="rounded-full" size={"icon"}><PlusIcon /></Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>Add users to quest</DialogHeader>
+                                <div>
+                                    <Input placeholder="email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                                    <Button onClick={handleAddUserButtonClick}>Add</Button>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
                 </div>
             </div>
-
-            <div className="flex flex-row p-4 min-h-[calc(100vh-74px)]">
-                {statusOptions.map((status) => (
-                    <div key={status.value} className="w-full bg-secondary m-2 rounded-md">
-                        <p className="text-xl p-3 text-center">{status.name}</p>
-                        <Droppable droppableId={status.value}>
-                            {(provided) => (
-                                <div
-                                    {...provided.droppableProps}
-                                    ref={provided.innerRef}
-                                    className="flex flex-col flex-1 p-3 gap-2" >
-                                    {quest.filter((task) => task.status === status.value).map((task, index) => (
-                                        <Draggable
-                                            key={task.task_name}
-                                            draggableId={task.task_name}
-                                            index={index}>
-                                            {(provided) => (
-                                                <div
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    ref={provided.innerRef}>
-                                                    <TaskItem task={task} id={params.id} />
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                    </div>
-                ))}
-            </div>
-        </DragDropContext>
+            <DragDropContext onDragEnd={onDragEnd}>
+                <div className="flex flex-row p-4 min-h-[calc(100vh-200px)]">
+                    {statusOptions.map((status) => (
+                        <div key={status.value} className="w-full bg-secondary m-2 rounded-md">
+                            <p className="text-xl p-3 text-center">{status.name}</p>
+                            <Droppable droppableId={status.value}>
+                                {(provided) => (
+                                    <div
+                                        {...provided.droppableProps}
+                                        ref={provided.innerRef}
+                                        className="flex flex-col flex-1 p-3 gap-2" >
+                                        {quest.filter((task) => task.status === status.value).map((task, index) => (
+                                            <Draggable
+                                                key={task.task_name}
+                                                draggableId={task.task_name}
+                                                index={index}>
+                                                {(provided) => (
+                                                    <div
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        ref={provided.innerRef}>
+                                                        <TaskItem task={task} id={params.id} />
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </div>
+                    ))}
+                </div>
+            </DragDropContext>
+        </>
     );
 };
 

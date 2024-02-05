@@ -13,6 +13,7 @@ import { Textarea } from '~/components/ui/textarea';
 import { Label } from "~/components/ui/label";
 import { api } from '~/trpc/react';
 import { toast } from 'sonner';
+import { dialogClose } from './dialog';
 
 interface Task {
     name: string;
@@ -35,7 +36,7 @@ const Task: React.FC<TaskProps> = ({ projectId }) => {
     const initialTaskState: Task = {
         name: '',
         description: '',
-        priority: '',
+        priority: 'medium',
         status: 'todo',
     };
 
@@ -66,6 +67,7 @@ const Task: React.FC<TaskProps> = ({ projectId }) => {
     const createTask = api.task.createTask.useMutation({
         onSuccess: async () => {
             toast.success('A new task has been added');
+            dialogClose();
             await getTasksQuery.refetch();
         },
         onError: () => {
