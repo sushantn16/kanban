@@ -1,8 +1,8 @@
 import { api } from "~/trpc/server";
-import TaskView from "~/components/ui/taskView";
+import TaskView from "~/components/taskView";
 
 const ActiveTasks = async () => {
-    const activeTasks = await (api.task.getTasksForUser.query({}));
+    const activeTasks = await api.task.getTasksForUser.query({ done: false });
     return (
         <>
             <p className="text-2xl font-bold mb-5">Active Tasks</p>

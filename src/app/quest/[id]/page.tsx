@@ -2,6 +2,7 @@
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+
 import type { DropResult } from "react-beautiful-dnd";
 import { toast } from "sonner";
 import { statusOptions } from "~/app/exports/data";
@@ -13,8 +14,8 @@ import {
     DialogTrigger,
 } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
-import Task from "~/components/ui/task";
-import TaskItem from "~/components/ui/taskItem";
+import Task from "~/components/task";
+import TaskItem from "~/components/taskItem";
 import { api } from "~/trpc/react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
 import { TaskResponse, User } from "~/app/exports/interfaces";
@@ -81,8 +82,8 @@ const Quest = ({ params }: { params: { id: number } }) => {
                 <p className="text-2xl font-bold">{quest[0]?.project.name}</p>
                 <div className="flex">
                     <Dialog>
-                        <DialogTrigger className="mr-10">
-                            <Button variant={"outline"}>Add Task</Button>
+                        <DialogTrigger className="mr-10 bg-primary text-white px-3 rounded-md">
+                            Add Task
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>Add a new Task</DialogHeader>
@@ -97,12 +98,12 @@ const Quest = ({ params }: { params: { id: number } }) => {
                             </Avatar>
                         )}
                         <Dialog>
-                            <DialogTrigger className="z-10 -ml-5">
-                                <Button variant={"outline"} className="rounded-full" size={"icon"}><PlusIcon /></Button>
+                            <DialogTrigger className="z-10 -ml-5 rounded-full bg-white px-3 border">
+                            <PlusIcon />
                             </DialogTrigger>
                             <DialogContent>
                                 <DialogHeader>Add users to quest</DialogHeader>
-                                <div>
+                                <div className="flex gap-2">
                                     <Input placeholder="email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
                                     <Button onClick={handleAddUserButtonClick}>Add</Button>
                                 </div>
@@ -112,7 +113,7 @@ const Quest = ({ params }: { params: { id: number } }) => {
                 </div>
             </div>
             <DragDropContext onDragEnd={onDragEnd}>
-                <div className="flex flex-row p-4 min-h-[calc(100vh-200px)]">
+                <div className="flex flex-row p-4">
                     {statusOptions.map((status) => (
                         <div key={status.value} className="w-full bg-secondary m-2 rounded-md">
                             <p className="text-xl p-3 text-center">{status.name}</p>
@@ -148,5 +149,7 @@ const Quest = ({ params }: { params: { id: number } }) => {
         </>
     );
 };
+
+
 
 export default Quest;

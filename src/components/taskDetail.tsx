@@ -1,5 +1,5 @@
 'use client'
-import { Textarea } from "./textarea";
+import { Textarea } from "./ui/textarea";
 import { priorityOptions } from "./task";
 import {
     Select,
@@ -8,14 +8,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "~/components/ui/select";
-import { Input } from "./input";
+import { Input } from "./ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
 import { api } from "~/trpc/react";
-import { Button } from "./button";
+import { Button } from "./ui/button";
 import { statusOptions } from "~/app/exports/data";
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar"
-import { dialogClose } from "./dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { dialogClose } from "./ui/dialog";
 import { TaskResponse } from "~/app/exports/interfaces";
 
 interface TaskDetailProps {
@@ -95,6 +95,9 @@ const TaskDetail: React.FC<TaskDetailProps> = ({ task, id }) => {
     }
 
     const addCommentButtonClick = () => {
+        if (!comment) {
+            return;
+        }
         addComment.mutate({
             taskId: taskDetail.id,
             content: comment,
@@ -104,7 +107,7 @@ const TaskDetail: React.FC<TaskDetailProps> = ({ task, id }) => {
     return (
         <>
             <div className="flex justify-between pr-3 items-center">
-                <p className="text-l">Task Detail</p>
+                <p className="text-l font-medium">Task Detail</p>
                 <Avatar>
                     <AvatarImage src={taskDetail.user.image ?? ''} />
                     <AvatarFallback>JD</AvatarFallback>
@@ -147,7 +150,7 @@ const TaskDetail: React.FC<TaskDetailProps> = ({ task, id }) => {
                 <p className="text-bold mb-3">Comments</p>
                 <div className="flex">
                     <Input value={comment} onChange={handleCommentInputChange} />
-                    <Button onClick={addCommentButtonClick} className="ml-3">Add Comment</Button>
+                    <Button onClick={addCommentButtonClick} disabled={!comment} className="ml-3">Add Comment</Button>
                 </div>
                 <div className="mt-5 inline-block">
                     {commentData.map((comment, i) => (

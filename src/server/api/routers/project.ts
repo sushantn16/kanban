@@ -71,4 +71,25 @@ export const projectRouter = createTRPCRouter({
       }
       return project.users;
     }),
-    });
+    
+    deleteProject: protectedProcedure
+    .input(z.object({ projectId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      // Check if the user has permission to delete the project
+      const projectToDelete = await ctx.db.project.findUnique({
+        where: { id: input.projectId, users: { some: { id: ctx.session.user.id } } },
+      });
+      if (!projectToDelete) {
+        throw new Error("Permission denied. Project not found or user does not have access.");
+      }
+
+      // Delete the project
+      await ctx.db.project.delete({
+        where: { id: input.projectId },
+      });
+
+      return `Project with ID ${input.projectId} deleted successfully.`;
+    }),
+
+  });
+

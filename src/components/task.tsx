@@ -13,7 +13,7 @@ import { Textarea } from '~/components/ui/textarea';
 import { Label } from "~/components/ui/label";
 import { api } from '~/trpc/react';
 import { toast } from 'sonner';
-import { dialogClose } from './dialog';
+import { dialogClose } from './ui/dialog';
 
 interface Task {
     name: string;

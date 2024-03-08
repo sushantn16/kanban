@@ -1,4 +1,4 @@
-import type {TaskResponse}  from "~/app/quest/[id]/page";
+import { TaskResponse } from "~/app/exports/interfaces";
 import {
     Card,
     CardContent,
@@ -7,13 +7,13 @@ import {
     CardHeader,
     CardTitle,
 } from "~/components/ui/card"
-import { Badge } from "./badge";
+import { Badge } from "./ui/badge";
 import {
     Dialog,
     DialogContent,
     DialogTrigger,
-} from "./dialog";
-import { Button } from "./button";
+} from "./ui/dialog";
+import { Button } from "./ui/button";
 import TaskDetail from "./taskDetail";
 
 interface TaskItemProps {

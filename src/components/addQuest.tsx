@@ -5,25 +5,19 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { api } from "~/trpc/react";
 
-const AddQuest = () => {
+const AddQuest = (props:{
+    addQuest: ReturnType<typeof api.project.createProject.useMutation>
+}) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const quest = api.project.createProject.useMutation({
-        onSuccess: async () => {
-            toast.success("A new Quest has been created");
-            setName("");
-            setDescription("");
-        },
-        onError: () => {
-            toast.error("Some problem creating a quest");
-        }
-    });
-
+    
     const createQuest = () => {
-        quest.mutate({
+        props.addQuest.mutate({
             projectName: name,
             description: description,
         });
+        setName("");
+        setDescription("");
     };
 
     const handleSubmit = (e:React.SyntheticEvent) => {

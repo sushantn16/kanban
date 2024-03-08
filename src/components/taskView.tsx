@@ -10,11 +10,11 @@ import {
 } from "~/components/ui/dialog";
 import TaskDetail from "./taskDetail";
 import Link from "next/link";
-import { Badge } from "./badge";
+import { Badge } from "./ui/badge";
 import { TaskResponse } from "~/app/exports/interfaces";
 
 interface TaskTileProps {
-    task: TaskResponse
+    task: TaskResponse;
 }
 
 const TaskTile: React.FC<TaskTileProps> = ({ task }) => {

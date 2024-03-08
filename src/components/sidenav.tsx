@@ -1,6 +1,6 @@
 import React from 'react'
 import { getServerAuthSession } from '~/server/auth';
-import { Button } from './button';
+import { Button } from './ui/button';
 import Link from 'next/link';
 
 const Sidenav = async () => {
